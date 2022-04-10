@@ -14,6 +14,7 @@ import { getCheckedValue, getToDoList } from '../../redux/toDo/toDoSelectors';
 import classNames from "classnames/bind";
 import styles from './toDo.module.scss';
 import { ADD_TODO_BTN } from '../../constans/constants';
+import { FiltersBtn } from '../filtersBtn/filtersBtn';
 
 const cx = classNames.bind(styles);
 
@@ -60,6 +61,20 @@ export const ToDos = () => {
     dispatch(setCheckedValue({...item, completed: !item.completed}));
   };
 
+  const getDoneToDo = (arr: IToDo[]) => {
+    const filtered = arr.filter((item: IToDo) => item.completed);
+    dispatch(setList(filtered));
+  };
+
+  const getNotDoneToDo = (arr: IToDo[]) => {
+    const filtered = arr.filter((item: IToDo) => !item.completed);
+    dispatch(setList(filtered));
+  };
+
+  const getAllToDo = (arr: IToDo[]) => {
+    dispatch(setList(arr));
+  };
+
   return(
     <div className={cx('container')}>
       <div className={cx('wrapper')}>
@@ -74,6 +89,14 @@ export const ToDos = () => {
             onClick={() => addNewToDo(inputValue)}>
           {ADD_TODO_BTN}
         </button>
+      </div>
+      <div className={cx('filter__btns')}>
+        <FiltersBtn
+          className="btn"
+          allToDo={getAllToDo}
+          notDone={getNotDoneToDo}
+          doneToDo={getDoneToDo}
+        />
       </div>
       <ul className={cx('list')}>
         {toDoList.map((item: IToDo) => (

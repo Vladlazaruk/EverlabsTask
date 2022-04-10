@@ -12,6 +12,11 @@ export const removeItemFromStorage = (arr: IToDo[]) => {
   localStorage.setItem('toDos', JSON.stringify(arr));
 };
 
+export const getItemsFromStorage = () => {
+  const result = localStorage.getItem('toDos');
+  if (result) return JSON.parse(result);
+};
+
 export const toggleItemInStorage = (item: IToDo) => {
   const toDosFromStorage = JSON.parse(localStorage.getItem('toDos') || '[]');
   if (toDosFromStorage.length) {
